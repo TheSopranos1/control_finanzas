@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Finanzas $</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: rgba(255, 255, 255, 0.96);
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --danger: #ef4444;
+      --danger-dark: #dc2626;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border: #d1d5db;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(241, 245, 249, 0.35)), url('peakpx.png') no-repeat center top fixed;
+      background-size: cover;
+      color: var(--text-main);
+      padding: 16px;
+      max-width: 500px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: left;
+      margin-bottom: 22px;
+      padding: 10px 0;
+    }
+
+    .title-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      padding: 0;
+    }
+
+    .title-icon {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.4rem;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .title-banner h1 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 0;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8), 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+
+    select, input[type="number"] {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 1.05rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background-color: #ffffff;
+      color: var(--text-main);
+      outline: none;
+      font-weight: 600;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input[type="number"]:focus {
+      border-color: var(--primary);
+    }
+
+    .type-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .type-btn {
+      padding: 14px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      color: var(--text-muted);
+    }
+
+    .type-btn.active-ingreso {
+      background-color: #ecfdf5;
+      border-color: var(--primary);
+      color: var(--primary-dark);
+    }
+
+    .type-btn.active-gasto {
+      background-color: #fef2f2;
+      border-color: var(--danger);
+      color: var(--danger-dark);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      margin-top: 8px;
+    }
+
+    .btn-submit:active {
+      background-color: var(--primary-dark);
+      transform: scale(0.98);
+    }
+
+    .card-summary {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      border: 2px solid var(--primary);
+    }
+
+    .summary-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #ffffff;
+      padding: 14px 18px;
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .summary-table th {
+      background-color: #ecfdf5;
+      color: #065f46;
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 10px 16px;
+      text-align: left;
+      border-bottom: 2px solid #a7f3d0;
+    }
+
+    .summary-table td {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      background-color: rgba(255, 255, 255, 0.98);
+    }
+
+    .summary-table td:last-child {
+      text-align: right;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+
+    .summary-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .filter-btn {
+      flex: 1;
+      padding: 10px 4px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active {
+      background: #ffffff;
+      color: var(--text-main);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px;
+      background-color: #f8fafc;
+      border-radius: 10px;
+      border-left: 5px solid var(--border);
+    }
+
+    .history-item.ingreso {
+      border-left-color: var(--primary);
+    }
+
+    .history-item.gasto {
+      border-left-color: var(--danger);
+    }
+
+    .history-info .rubro {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .history-info .fecha {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+
+    .history-amount {
+      font-weight: 800;
+      font-size: 1.05rem;
+    }
+
+    .history-amount.ingreso {
+      color: var(--primary-dark);
+    }
+
+    .history-amount.gasto {
+      color: var(--danger-dark);
+    }
+
+    .empty-msg {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      padding: 20px 0;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="title-banner">
+      <div class="title-icon">$</div>
+      <h1>FINANZAS</h1>
+    </div>
+  </header>
+
+  <!-- FORMULARIO DE REGISTRO -->
+  <section class="card-summary">
+    <div class="summary-header">
+      <span>NUEVO MOVIMIENTO</span>
+      <span style="font-size: 1.2rem;">📝</span>
+    </div>
+    
+    <div class="card-body">
+      <div class="form-group">
+        <label for="rubro">Rubro</label>
+        <select id="rubro">
+          <option value="Emergencias">Emergencias</option>
+          <option value="Impuestos">Impuestos</option>
+          <option value="Ahorros">Ahorros</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Tipo de movimiento</label>
+        <div class="type-selector">
+          <button type="button" class="type-btn active-ingreso" id="btnIngreso" onclick="setTipo('Ingreso')">Ingreso (+)</button>
+          <button type="button" class="type-btn" id="btnGasto" onclick="setTipo('Gasto')">Gasto (-)</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="valor">Valor ($)</label>
+        <input type="number" id="valor" placeholder="Ej: 50000" inputmode="numeric">
+      </div>
+
+      <button class="btn-submit" onclick="guardarMovimiento()">Guardar Registros</button>
+    </div>
+  </section>
+
+  <!-- TABLA RESUMEN VERDE DESTACADA -->
+  <section class="card-summary">
+    <div class="summary-header">
+      <span>RESUMEN DE CUENTAS</span>
+      <span style="font-size: 1.2rem;">📊</span>
+    </div>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>RUBRO</th>
+          <th style="text-align: right;">TOTAL ACUMULADO</th>
+        </tr>
+      </thead>
+      <tbody id="tablaResumen">
+        <tr>
+          <td><strong>Emergencias</strong></td>
+          <td style="text-align: right; color: var(--primary-dark);">$0</td>
+        </tr>
+        <tr>
+          <td><strong>Impuestos</strong></td>
+          <td style="text-align: right; color: var(--primary-dark);">$0</td>
+        </tr>
+        <tr>
+          <td><strong>Ahorros</strong></td>
+          <td style="text-align: right; color: var(--primary-dark);">$0</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- HISTORIAL -->
+  <section class="card-summary">
+    <div class="summary-header">
+      <span>HISTORIAL DE REGISTROS</span>
+      <span style="font-size: 1.2rem;">📜</span>
+    </div>
+    
+    <div class="card-body">
+      <div class="filter-group">
+        <button class="filter-btn active" onclick="setFiltro(3, this)">Últimos 3 meses</button>
+        <button class="filter-btn" onclick="setFiltro(6, this)">Últimos 6 meses</button>
+        <button class="filter-btn" onclick="setFiltro(0, this)">Todos los registros</button>
+      </div>
+
+      <div class="history-list" id="listaHistorial">
+        <div class="empty-msg">Cargando registros...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCRIPT DE FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // Configuración de tu proyecto Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDRnYITVOV_uj4IdmsSv_dzcK__ogVrcB8",
+      authDomain: "finanzasfamilia-f73f3.firebaseapp.com",
+      projectId: "finanzasfamilia-f73f3",
+      storageBucket: "finanzasfamilia-f73f3.firebasestorage.app",
+      messagingSenderId: "781455318648",
+      appId: "1:781455318648:web:f950f101f41f2673ca178d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let tipoSeleccionado = 'Ingreso';
+    let movimientosGlobales = [];
+    let mesesFiltro = 3;
+
+    const formatter = new Intl.NumberFormat('es-CO', {
+      style: 'currency',
+      currency: 'COP',
+      minimumFractionDigits: 0
+    });
+
+    window.setTipo = function(tipo) {
+      tipoSeleccionado = tipo;
+      const btnIngreso = document.getElementById('btnIngreso');
+      const btnGasto = document.getElementById('btnGasto');
+
+      if (tipo === 'Ingreso') {
+        btnIngreso.className = 'type-btn active-ingreso';
+        btnGasto.className = 'type-btn';
+      } else {
+        btnIngreso.className = 'type-btn';
+        btnGasto.className = 'type-btn active-gasto';
+      }
+    };
+
+    window.guardarMovimiento = async function() {
+      const rubro = document.getElementById('rubro').value;
+      const valorInput = document.getElementById('valor').value;
+      const valor = parseFloat(valorInput);
+
+      if (!valorInput || isNaN(valor) || valor <= 0) {
+        alert('Por favor ingresa un valor válido mayor a 0.');
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, "movimientos"), {
+          rubro: rubro,
+          tipo: tipoSeleccionado,
+          valor: valor,
+          fecha: serverTimestamp()
+        });
+
+        document.getElementById('valor').value = '';
+        alert('Movimiento registrado con éxito.');
+      } catch (e) {
+        console.error("Error guardando el registro: ", e);
+        alert('Error al guardar el movimiento. Asegúrate de haber publicado las Reglas de Firestore.');
+      }
+    };
+
+    window.setFiltro = function(meses, btn) {
+      mesesFiltro = meses;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderizarHistorial();
+    };
+
+    const q = query(collection(db, "movimientos"), orderBy("fecha", "desc"));
+    onSnapshot(q, (snapshot) => {
+      movimientosGlobales = snapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          fechaObj: data.fecha ? data.fecha.toDate() : new Date()
+        };
+      });
+
+      renderizarResumen();
+      renderizarHistorial();
+    }, (error) => {
+      console.error("Error al escuchar cambios:", error);
+      document.getElementById('listaHistorial').innerHTML = '<div class="empty-msg">Esperando conexión a GitHub Pages...</div>';
+    });
+
+    function renderizarResumen() {
+      const rubros = ["Emergencias", "Impuestos", "Ahorros"];
+      const totales = { Emergencias: 0, Impuestos: 0, Ahorros: 0 };
+
+      movimientosGlobales.forEach(m => {
+        if (totales[m.rubro] !== undefined) {
+          totales[m.rubro] += (m.tipo === 'Ingreso' ? m.valor : -m.valor);
+        }
+      });
+
+      const tbody = document.getElementById('tablaResumen');
+      tbody.innerHTML = '';
+
+      rubros.forEach(r => {
+        const tr = document.createElement('tr');
+        const val = totales[r];
+        const colorStyle = val < 0 ? 'color: var(--danger-dark);' : 'color: #047857;';
+        
+        tr.innerHTML = `
+          <td><strong style="color: #1e293b;">${r}</strong></td>
+          <td style="${colorStyle}">${formatter.format(val)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderizarHistorial() {
+      const contenedor = document.getElementById('listaHistorial');
+      contenedor.innerHTML = '';
+
+      const ahora = new Date();
+      
+      const filtrados = movimientosGlobales.filter(m => {
+        if (mesesFiltro === 0) return true;
+        const limite = new Date();
+        limite.setMonth(ahora.getMonth() - mesesFiltro);
+        return m.fechaObj >= limite;
+      });
+
+      if (filtrados.length === 0) {
+        contenedor.innerHTML = '<div class="empty-msg">No hay registros en este rango de tiempo.</div>';
+        return;
+      }
+
+      filtrados.forEach(m => {
+        const div = document.createElement('div');
+        div.className = `history-item ${m.tipo.toLowerCase()}`;
+        
+        const fechaStr = m.fechaObj.toLocaleString('es-CO', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        const signo = m.tipo === 'Ingreso' ? '+' : '-';
+        
+        div.innerHTML = `
+          <div class="history-info">
+            <div class="rubro">${m.rubro}</div>
+            <div class="fecha">${fechaStr}</div>
+          </div>
+          <div class="history-amount ${m.tipo.toLowerCase()}">
+            ${signo}${formatter.format(m.valor)}
+          </div>
+        `;
+        contenedor.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
